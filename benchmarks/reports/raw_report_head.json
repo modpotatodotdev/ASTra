@@ -1,0 +1,250 @@
+{
+  "metadata": {
+    "workspace": "/path/to/xy-benchmark-workspace",
+    "swe_bench_jsonl": "benchmarks/xybench/data/xy_benchmark_50.jsonl",
+    "timestamp_unix_secs": 1772502176,
+    "cases_evaluated": 50,
+    "top_k": 5,
+    "llmg_model": null,
+    "methodology": "SWE-bench-lite issue retrieval benchmark. Measures retrieval latency and end-to-end (retrieval + optional LLMG completion) latency, reports token usage from LLMG when available, and computes oracle-file hit-rate from patch/test_patch targets."
+  },
+  "summary": {
+    "astra": {
+      "runs": 50,
+      "retrieval_avg_ms": 24.803662,
+      "retrieval_p95_ms": 70.3414,
+      "total_avg_ms": 24.831387999999997,
+      "total_p95_ms": 70.35470000000001,
+      "prompt_tokens": 83450,
+      "completion_tokens": 0,
+      "total_tokens": 83450,
+      "oracle_hit_rate": 0.16
+    },
+    "grep": {
+      "runs": 50,
+      "retrieval_avg_ms": 42.938981999999996,
+      "retrieval_p95_ms": 106.534,
+      "total_avg_ms": 45.362896,
+      "total_p95_ms": 109.0834,
+      "prompt_tokens": 24953,
+      "completion_tokens": 0,
+      "total_tokens": 24953,
+      "oracle_hit_rate": 0.0
+    },
+    "ripgrep": {
+      "runs": 50,
+      "retrieval_avg_ms": 151.02518399999997,
+      "retrieval_p95_ms": 231.2516,
+      "total_avg_ms": 151.03300000000002,
+      "total_p95_ms": 231.264,
+      "prompt_tokens": 16543,
+      "completion_tokens": 0,
+      "total_tokens": 16543,
+      "oracle_hit_rate": 0.0
+    },
+    "traditional_rag": {
+      "runs": 50,
+      "retrieval_avg_ms": 4.673356,
+      "retrieval_p95_ms": 10.4163,
+      "total_avg_ms": 4.691282000000001,
+      "total_p95_ms": 10.4385,
+      "prompt_tokens": 51768,
+      "completion_tokens": 0,
+      "total_tokens": 51768,
+      "oracle_hit_rate": 0.2
+    }
+  },
+  "records": [
+    {
+      "case_id": "astropy__astropy-12842",
+      "method": "astra",
+      "retrieval_ms": 2.5869999999999997,
+      "total_ms": 2.7474000000000003,
+      "prompt_tokens": 10825,
+      "completion_tokens": 0,
+      "total_tokens": 10825,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "astropy__astropy-12842",
+      "method": "grep",
+      "retrieval_ms": 1.2561,
+      "total_ms": 3.9023,
+      "prompt_tokens": 1287,
+      "completion_tokens": 0,
+      "total_tokens": 1287,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "astropy__astropy-12842",
+      "method": "ripgrep",
+      "retrieval_ms": 100.28439999999999,
+      "total_ms": 100.30369999999999,
+      "prompt_tokens": 1077,
+      "completion_tokens": 0,
+      "total_tokens": 1077,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "astropy__astropy-12842",
+      "method": "traditional_rag",
+      "retrieval_ms": 1.0367,
+      "total_ms": 1.0713000000000001,
+      "prompt_tokens": 1961,
+      "completion_tokens": 0,
+      "total_tokens": 1961,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11677",
+      "method": "astra",
+      "retrieval_ms": 28.5768,
+      "total_ms": 28.5962,
+      "prompt_tokens": 933,
+      "completion_tokens": 0,
+      "total_tokens": 933,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11677",
+      "method": "grep",
+      "retrieval_ms": 95.8768,
+      "total_ms": 98.2745,
+      "prompt_tokens": 536,
+      "completion_tokens": 0,
+      "total_tokens": 536,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11677",
+      "method": "ripgrep",
+      "retrieval_ms": 204.1848,
+      "total_ms": 204.1938,
+      "prompt_tokens": 360,
+      "completion_tokens": 0,
+      "total_tokens": 360,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11677",
+      "method": "traditional_rag",
+      "retrieval_ms": 6.9056,
+      "total_ms": 6.923,
+      "prompt_tokens": 916,
+      "completion_tokens": 0,
+      "total_tokens": 916,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11797",
+      "method": "astra",
+      "retrieval_ms": 16.186200000000003,
+      "total_ms": 16.1918,
+      "prompt_tokens": 249,
+      "completion_tokens": 0,
+      "total_tokens": 249,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11797",
+      "method": "grep",
+      "retrieval_ms": 93.28200000000001,
+      "total_ms": 95.6832,
+      "prompt_tokens": 217,
+      "completion_tokens": 0,
+      "total_tokens": 217,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11797",
+      "method": "ripgrep",
+      "retrieval_ms": 224.83169999999998,
+      "total_ms": 224.8351,
+      "prompt_tokens": 89,
+      "completion_tokens": 0,
+      "total_tokens": 89,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-11797",
+      "method": "traditional_rag",
+      "retrieval_ms": 7.0635,
+      "total_ms": 7.0825000000000005,
+      "prompt_tokens": 575,
+      "completion_tokens": 0,
+      "total_tokens": 575,
+      "oracle_hit": true
+    },
+    {
+      "case_id": "django__django-12113",
+      "method": "astra",
+      "retrieval_ms": 40.0097,
+      "total_ms": 40.0286,
+      "prompt_tokens": 947,
+      "completion_tokens": 0,
+      "total_tokens": 947,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12113",
+      "method": "grep",
+      "retrieval_ms": 96.3297,
+      "total_ms": 98.7842,
+      "prompt_tokens": 679,
+      "completion_tokens": 0,
+      "total_tokens": 679,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12113",
+      "method": "ripgrep",
+      "retrieval_ms": 202.6002,
+      "total_ms": 202.6086,
+      "prompt_tokens": 442,
+      "completion_tokens": 0,
+      "total_tokens": 442,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12113",
+      "method": "traditional_rag",
+      "retrieval_ms": 6.9079,
+      "total_ms": 6.9269,
+      "prompt_tokens": 999,
+      "completion_tokens": 0,
+      "total_tokens": 999,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12519",
+      "method": "astra",
+      "retrieval_ms": 18.5031,
+      "total_ms": 18.5159,
+      "prompt_tokens": 678,
+      "completion_tokens": 0,
+      "total_tokens": 678,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12519",
+      "method": "grep",
+      "retrieval_ms": 95.6297,
+      "total_ms": 98.0992,
+      "prompt_tokens": 541,
+      "completion_tokens": 0,
+      "total_tokens": 541,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12519",
+      "method": "ripgrep",
+      "retrieval_ms": 231.2516,
+      "total_ms": 231.264,
+      "prompt_tokens": 433,
+      "completion_tokens": 0,
+      "total_tokens": 433,
+      "oracle_hit": false
+    },
+    {
+      "case_id": "django__django-12519",
+      "method": "traditional_rag",

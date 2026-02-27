@@ -1,0 +1,14 @@
+/target
+.folder/
+*.swp
+*.swo
+*~
+.DS_Store
+.opencode/
+.env
+.fastembed_cache/
+bench/
+.desloppify/
+scorecard.png
+tmp/
+__pycache__/
