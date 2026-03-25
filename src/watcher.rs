@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::time::Duration;
 
 use anyhow::Result;
@@ -55,6 +56,18 @@ pub async fn watch_workspace(config: &AstraConfig) -> Result<mpsc::Receiver<Vec<
 
         info!("Watching {} for changes", workspace_root.display());
 
+        let walker = ignore::WalkBuilder::new(&workspace_root)
+            .git_global(true)
+            .git_ignore(true)
+            .build();
+
+        let mut ignored_paths: HashSet<String> = HashSet::new();
+        for entry in walker.flatten() {
+            if let Some(path) = entry.path().to_str() {
+                ignored_paths.insert(path.to_string());
+            }
+        }
+
         loop {
             match notify_rx.recv() {
                 Ok(Ok(events)) => {
@@ -68,6 +81,13 @@ pub async fn watch_workspace(config: &AstraConfig) -> Result<mpsc::Receiver<Vec<
                             .any(|c| c.as_os_str().to_string_lossy().starts_with('.'))
                         {
                             continue;
+                        }
+
+                        // Skip gitignore-ignored paths
+                        if let Some(path_str) = path.to_str() {
+                            if ignored_paths.contains(path_str) {
+                                continue;
+                            }
                         }
 
                         // Skip non-matching extensions

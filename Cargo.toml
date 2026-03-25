@@ -1,6 +1,6 @@
 [package]
 name = "astra"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.70"
 description = "Local semantic code search MCP server powered by AST analysis"
@@ -38,6 +38,7 @@ bincode = "1"
 
 # Utilities
 walkdir = "2"
+ignore = "0.4"
 log = "0.4"
 env_logger = "0.11"
 anyhow = "1"

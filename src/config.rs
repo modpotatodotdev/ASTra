@@ -29,6 +29,8 @@ impl AstraConfig {
         let embedding_provider = std::env::var("ASTRA_EMBEDDING_PROVIDER")
             .unwrap_or_else(|_| default_provider.to_string());
 
+        ensure_gitignore_entry(&workspace_root, ".folder");
+
         Self {
             workspace_root,
             data_dir,
@@ -58,6 +60,24 @@ impl AstraConfig {
 
     pub fn metadata_path(&self) -> PathBuf {
         self.data_dir.join("metadata.json")
+    }
+}
+
+fn ensure_gitignore_entry(workspace_root: &Path, entry: &str) {
+    let gitignore_path = workspace_root.join(".gitignore");
+    let entry_line = entry.to_string();
+    if let Ok(content) = std::fs::read_to_string(&gitignore_path) {
+        if content.lines().any(|line| line.trim() == entry_line) {
+            return;
+        }
+    }
+    if let Ok(mut file) = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&gitignore_path)
+    {
+        use std::io::Write;
+        let _ = writeln!(file, "{}", entry_line);
     }
 }
 

@@ -3,9 +3,9 @@ use std::time::SystemTime;
 use std::time::{Duration, Instant};
 
 use anyhow::Result;
+use ignore::WalkBuilder;
 use log::info;
 use rayon::prelude::*;
-use walkdir::WalkDir;
 
 use crate::config::AstraConfig;
 use crate::embeddings::Embedder;
@@ -274,26 +274,35 @@ pub fn update_files(
 /// Collect all files matching the configured extensions.
 pub fn collect_files(root: &Path, extensions: &[String]) -> Result<Vec<String>> {
     let mut files = Vec::new();
-    for entry in WalkDir::new(root).into_iter().filter_entry(|e| {
-        // Always include the root directory itself
-        if e.depth() == 0 {
-            return true;
-        }
-        let name = e.file_name().to_string_lossy();
-        // Skip hidden dirs, target, node_modules, etc.
-        !name.starts_with('.')
-            && name != "target"
-            && name != "node_modules"
-            && name != "__pycache__"
-            && name != "vendor"
-    }) {
-        let entry = entry?;
-        if entry.file_type().is_file() {
-            if let Some(ext) = entry.path().extension().and_then(|e| e.to_str()) {
-                if extensions.iter().any(|x| x == ext) {
-                    // Also check if the language is supported
-                    if Language::from_extension(ext).is_some() {
-                        files.push(entry.path().to_string_lossy().to_string());
+
+    let walker = WalkBuilder::new(root)
+        .hidden(false)
+        .git_global(true)
+        .git_ignore(true)
+        .filter_entry(|e: &ignore::DirEntry| {
+            if e.depth() == 0 {
+                return true;
+            }
+            let name = e.file_name().to_string_lossy();
+            if name.starts_with('.') {
+                return false;
+            }
+            if name == ".folder" {
+                return false;
+            }
+            true
+        })
+        .build();
+
+    for entry in walker {
+        let entry: ignore::DirEntry = entry?;
+        if let Some(file_type) = entry.file_type() {
+            if file_type.is_file() {
+                if let Some(ext) = entry.path().extension().and_then(|e| e.to_str()) {
+                    if extensions.iter().any(|x| x == ext) {
+                        if Language::from_extension(ext).is_some() {
+                            files.push(entry.path().to_string_lossy().to_string());
+                        }
                     }
                 }
             }
@@ -471,5 +480,22 @@ fn greet(name: &str) {
             &store,
             DEFAULT_LOCAL_DIM
         ));
+    }
+
+    #[test]
+    fn test_collect_files_respects_gitignore() {
+        let tmp = TempDir::new().unwrap();
+        fs::write(tmp.path().join("visible.rs"), "fn v() {}").unwrap();
+        let dist = tmp.path().join("dist");
+        fs::create_dir_all(&dist).unwrap();
+        fs::write(dist.join("build.rs"), "fn b() {}").unwrap();
+        fs::write(tmp.path().join(".gitignore"), "dist/\n").unwrap();
+
+        // Create .git directory so ignore crate respects gitignore
+        fs::create_dir_all(tmp.path().join(".git")).unwrap();
+
+        let files = collect_files(tmp.path(), &["rs".into()]).unwrap();
+        assert_eq!(files.len(), 1, "dist/ should be ignored by gitignore");
+        assert!(files[0].contains("visible.rs"));
     }
 }
