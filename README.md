@@ -1,4 +1,4 @@
-# ASTra (Abstract Syntax Tree Retrieval Augmentation)
+# ASTra (Abstract Syntax Tree retrieval augmentation)
 
 Local semantic code search MCP server for Rust, Python, and JavaScript/TypeScript workspaces.
 
