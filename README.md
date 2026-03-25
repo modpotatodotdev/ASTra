@@ -1,4 +1,4 @@
-# ASTra (Abstract Syntax Tree retrieval augmentation)
+# ASTRA (Abstract Syntax Tree Retrieval Augmentation)
 
 Local semantic code search MCP server for Rust, Python, and JavaScript/TypeScript workspaces.
 
@@ -6,9 +6,9 @@ Local semantic code search MCP server for Rust, Python, and JavaScript/TypeScrip
 ![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange.svg)
 [![Blog Post](https://img.shields.io/badge/Blog_Post-Read_the_writeup-blue)](https://modpotato.dev/blog/astra-release/)
 
-## What is ASTra?
+## What is ASTRA?
 
-ASTra is a local-only semantic code search server that runs as an MCP process over stdio. It parses source with tree-sitter, builds an AST call graph, and searches with A* traversal biased by semantic similarity. Search runs locally after indexing, so normal query execution does not call external APIs. ASTra currently supports Rust, Python, and JavaScript/TypeScript.
+ASTRA is a local-only semantic code search server that runs as an MCP process over stdio. It parses source with tree-sitter, builds an AST call graph, and searches with A* traversal biased by semantic similarity. Search runs locally after indexing, so normal query execution does not call external APIs. ASTRA currently supports Rust, Python, and JavaScript/TypeScript.
 
 <p align="center">
   <img src="benchmarks/reports/xybench_academic.svg" alt="XYbench Academic Report" width="600">
@@ -24,7 +24,7 @@ ASTra is a local-only semantic code search server that runs as an MCP process ov
 
 ## Installation
 
-ASTra can be installed directly from source or configured with different feature profiles to suit your machine.
+ASTRA can be installed directly from source or configured with different feature profiles to suit your machine.
 
 **Fully Local (Default)**
 Compiles the generic `BAAI/bge-base-en-v1.5` dense model using `fastembed` and ONNX Runtime:
@@ -75,15 +75,15 @@ For the **OpenRouter** embedding provider, pass environment variables:
 }
 ```
 
-On first run, ASTra performs a cold-start index build for the workspace. Subsequent runs load persisted index data from disk.
+On first run, ASTRA performs a cold-start index build for the workspace. Subsequent runs load persisted index data from disk.
 
 ## Benchmarks
 
-ASTra is evaluated on [XYbench](benchmarks/xybench/), a retrieval-focused subset of SWE-bench-lite. It measures how effectively different tools can retrieve the "oracle" files (the files actually modified in the pull request) given only the issue description.
+ASTRA is evaluated on [XYbench](benchmarks/xybench/), a retrieval-focused subset of SWE-bench-lite. It measures how effectively different tools can retrieve the "oracle" files (the files actually modified in the pull request) given only the issue description.
 
 ### Retrieval Performance (XYbench, 50 cases)
 
-| Metric | **ASTra** | Traditional RAG | Grep | Ripgrep |
+| Metric | **ASTRA** | Traditional RAG | Grep | Ripgrep |
 |---|---:|---:|---:|---:|
 | **Oracle file hit-rate** | **26.0 %** | 24.0 % | 6.0 % | 0.0 % |
 | **Recall@k** (Top-10) | 12.1 % | **12.3 %** | 4.1 % | 0.0 % |
@@ -94,10 +94,10 @@ ASTra is evaluated on [XYbench](benchmarks/xybench/), a retrieval-focused subset
 
 ### Transparency & Shortcomings
 
-While ASTra excels at semantic discovery, it comes with trade-offs:
-- **Latency**: ASTra's graph traversal and embedding generation are significantly slower than simple keyword search (regex/grep).
-- **Context Size**: Due to its "semantic expansion" strategy, ASTra often pulls in much more context than keyword-based tools. While this improves the oracle hit-rate, it puts more pressure on the LLM's context window.
-- **Large Repository Overhead**: On small/medium repos, ASTra is extremely fast, but on large repositories like Django, the overhead of graph search and embedding calculation becomes visible.
+While ASTRA excels at semantic discovery, it comes with trade-offs:
+- **Latency**: ASTRA's graph traversal and embedding generation are significantly slower than simple keyword search (regex/grep).
+- **Context Size**: Due to its "semantic expansion" strategy, ASTRA often pulls in much more context than keyword-based tools. While this improves the oracle hit-rate, it puts more pressure on the LLM's context window.
+- **Large Repository Overhead**: On small/medium repos, ASTRA is extremely fast, but on large repositories like Django, the overhead of graph search and embedding calculation becomes visible.
 
 Full benchmark reports are under `benchmarks/reports/`.
 
